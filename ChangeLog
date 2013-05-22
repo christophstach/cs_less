@@ -1,0 +1,7 @@
+- Version 1.3.0: 04.05.2013
+
+- Dropped dependency to fed (now cs_less is standalone)
+- Raised Typo3 dependency to v6.0
+- Breaking Change: use now {namespace less=TYPO3\CsLess\ViewHelpers}
+
+--------------------------------------------------------------------------------
