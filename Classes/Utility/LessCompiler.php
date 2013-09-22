@@ -1,6 +1,6 @@
 <?php
 
-namespace TYPO3\CsLess\Utility;
+namespace Stach\CsLess\Utility;
 
 /* * *************************************************************
  *  Copyright notice

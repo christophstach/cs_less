@@ -1,6 +1,6 @@
 <?php
 
-namespace TYPO3\CsLess\ViewHelpers;
+namespace Stach\CsLess\ViewHelpers;
 
 /* * *************************************************************
  *  Copyright notice
@@ -40,7 +40,7 @@ class StyleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedV
     /**
      * Der Less-Compiler
      * 
-     * @var \TYPO3\CsLess\Utility\LessCompiler
+     * @var \Stach\CsLess\Utility\LessCompiler
      * @inject
      */
     protected $lessCompiler;
