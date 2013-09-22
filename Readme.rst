@@ -1,1 +1,1 @@
-CsLess provides a ViewHelper to include LESS-files in your Fluid-Templates. 
+CsLess provides a ViewHelper to include LESS-files in your Fluid-Templates.

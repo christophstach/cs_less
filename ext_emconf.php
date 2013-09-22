@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
     'title' => 'LESS CSS ViewHelper',
-    'description' => 'This extension provides a ViewHelper to include LESS-files in your Fluid-Templates.',
+    'description' => 'CsLess provides a ViewHelper to include LESS-files in your Fluid-Templates.',
     'category' => 'misc',
     'author' => 'Christoph Stach',
     'author_email' => 'christoph.stach@outlook.com',
@@ -27,7 +27,7 @@ $EM_CONF[$_EXTKEY] = array(
     'modify_tables' => '',
     'clearCacheOnLoad' => 0,
     'lockType' => '',
-    'version' => '1.4.0',
+    'version' => '1.5.0',
     'constraints' => array(
         'depends' => array(
             'typo3' => '6.0.0-',
