@@ -65,10 +65,7 @@ class StyleViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedV
         $this->tag->setTagName('link');
         $this->tag->addAttribute('rel', 'stylesheet');
         $this->tag->addAttribute('href', $this->lessCompiler->compileFile($this->arguments['href']));
-
-        return $this->tag->render();
+        $GLOBALS['TSFE']->getPageRenderer()->addHeaderData($this->tag->render());        
     }
 
 }
-
-?>

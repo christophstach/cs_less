@@ -91,5 +91,3 @@ class LessCompiler implements \TYPO3\CMS\Core\SingletonInterface {
     }
 
 }
-
-?>
