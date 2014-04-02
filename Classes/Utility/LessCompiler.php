@@ -6,6 +6,7 @@ namespace Stach\CsLess\Utility;
  *  Copyright notice
  *
  *  (c) 2011 Christoph Stach
+ *  (c) 2014 Benedict Burckhart <benedict.burckhart@flagbit.de>
  *
  *  All rights reserved
  *
@@ -27,8 +28,8 @@ namespace Stach\CsLess\Utility;
  * ************************************************************* */
 
 /**
- * @author Christoph Stach
- * @version 1.0.1
+ * @author Christoph Stach, Benedict Burckhart
+ * @version 1.0.2
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @package cs_less
@@ -41,6 +42,11 @@ class LessCompiler implements \TYPO3\CMS\Core\SingletonInterface {
     private $outputFolder = 'typo3temp';
 
     /**
+     * @var \TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend
+     */
+    private $cacheInstance = null;
+
+    /**
      * @param string $filePath The filepath to the less-file
      * @return string The filepath to the compiled css-file
      */
@@ -48,7 +54,7 @@ class LessCompiler implements \TYPO3\CMS\Core\SingletonInterface {
         $folder = dirname($filePath);
         $file = basename($filePath);
 				
-        $cssFilePath = $this->outputFolder . DIRECTORY_SEPARATOR . substr($file, 0, -5) . '-' . md5_file(($folder . DIRECTORY_SEPARATOR . $file)) . '.css';
+        $cssFilePath = $this->outputFolder . DIRECTORY_SEPARATOR . substr($file, 0, -5) . '-' . md5_file(($folder . DIRECTORY_SEPARATOR . $file)) . '.css?' . $this->getCachedTimestamp();
         $this->cachedCompile($folder . DIRECTORY_SEPARATOR . $file, $cssFilePath);
 
         return $cssFilePath;
@@ -85,6 +91,57 @@ class LessCompiler implements \TYPO3\CMS\Core\SingletonInterface {
         }
 
         return false;
+    }
+
+    /**
+     * Get cached timestamp for cachebreaker
+     *
+     * @return integer
+     */
+    private function getCachedTimestamp() {
+        $this->initializeCache();
+        if (($timestamp = $this->getCache('timestamp')) === false) {
+            $timestamp = time();
+            $this->setCache('timestamp', (string)$timestamp);
+        }
+        return $timestamp;
+    }
+
+    /**
+     * Initialize cache instance to be ready to use
+     *
+     * @return void
+     */
+    private function initializeCache() {
+        \TYPO3\CMS\Core\Cache\Cache::initializeCachingFramework();
+        $this->cacheInstance = $GLOBALS['typo3CacheManager']->getCache('cs_less_cache');
+    }
+
+    /**
+     * Cache set
+     *
+     * @param $key
+     * @param $value
+     * @return void | boolean false if cache ist not initialized
+     */
+    private function setCache($key, $value, $expire=0) {
+        if ($this->cacheInstance === null) {
+            return false;
+        }
+        $this->cacheInstance->set($key, $value, array('lesscache'), $expire);
+    }
+
+    /**
+     * Cache get
+     *
+     * @param $key
+     * @return mixed | false if cache ist not initialized
+     */
+    private function getCache($key) {
+        if ($this->cacheInstance === null) {
+            return false;
+        }
+        return $this->cacheInstance->get($key);
     }
 
 }
