@@ -54,10 +54,10 @@ class LessCompiler implements \TYPO3\CMS\Core\SingletonInterface {
         $folder = dirname($filePath);
         $file = basename($filePath);
 				
-        $cssFilePath = $this->outputFolder . DIRECTORY_SEPARATOR . substr($file, 0, -5) . '-' . md5_file(($folder . DIRECTORY_SEPARATOR . $file)) . '.css?' . $this->getCachedTimestamp();
+        $cssFilePath = $this->outputFolder . DIRECTORY_SEPARATOR . substr($file, 0, -5) . '-' . md5_file(($folder . DIRECTORY_SEPARATOR . $file)) . '.css';
         $this->cachedCompile($folder . DIRECTORY_SEPARATOR . $file, $cssFilePath);
 
-        return $cssFilePath;
+        return sprintf('%s?%s',$cssFilePath, $this->getCachedTimestamp());
     }
 
     /**
