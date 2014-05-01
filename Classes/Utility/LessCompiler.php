@@ -104,6 +104,7 @@ class LessCompiler implements \TYPO3\CMS\Core\SingletonInterface {
             $timestamp = time();
             $this->setCache('timestamp', (string)$timestamp);
         }
+				
         return $timestamp;
     }
 
@@ -114,7 +115,17 @@ class LessCompiler implements \TYPO3\CMS\Core\SingletonInterface {
      */
     private function initializeCache() {
         \TYPO3\CMS\Core\Cache\Cache::initializeCachingFramework();
-        $this->cacheInstance = $GLOBALS['typo3CacheManager']->getCache('cs_less_cache');
+				
+				try {
+					$this->cacheInstance = $GLOBALS['typo3CacheManager']->getCache('cs_less_cache');	
+				} catch (\TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException $exception) {
+					$this->cacheInstance = $GLOBALS['typo3CacheFactory']->create(
+						'cs_less_cache',
+						$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cs_less_cache']['frontend'],
+						$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cs_less_cache']['backend'],
+						$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cs_less_cache']['options']
+					);
+				}
     }
 
     /**
@@ -128,6 +139,7 @@ class LessCompiler implements \TYPO3\CMS\Core\SingletonInterface {
         if ($this->cacheInstance === null) {
             return false;
         }
+				
         $this->cacheInstance->set($key, $value, array('lesscache'), $expire);
     }
 
@@ -141,6 +153,7 @@ class LessCompiler implements \TYPO3\CMS\Core\SingletonInterface {
         if ($this->cacheInstance === null) {
             return false;
         }
+				
         return $this->cacheInstance->get($key);
     }
 
