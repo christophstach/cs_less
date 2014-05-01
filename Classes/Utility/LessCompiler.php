@@ -119,12 +119,11 @@ class LessCompiler implements \TYPO3\CMS\Core\SingletonInterface {
 				try {
 					$this->cacheInstance = $GLOBALS['typo3CacheManager']->getCache('cs_less_cache');	
 				} catch (\TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException $exception) {
-					$this->cacheInstance = $GLOBALS['typo3CacheFactory']->create(
+					/*$this->cacheInstance = $GLOBALS['typo3CacheFactory']->create(
 						'cs_less_cache',
 						$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cs_less_cache']['frontend'],
-						$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cs_less_cache']['backend'],
-						$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cs_less_cache']['options']
-					);
+						$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cs_less_cache']['backend']
+					);*/
 				}
     }
 
